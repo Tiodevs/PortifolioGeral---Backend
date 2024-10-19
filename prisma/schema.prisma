@@ -1,0 +1,48 @@
+
+// npx prisma migrate dev --name init
+// npx prisma generate
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id           String   @id @default(uuid()) // ID único com UUID
+  name         String
+  email        String   @unique // E-mail deve ser único
+  password     String   // Senha para login
+  createdAt    DateTime @default(now())
+  active       Boolean  @default(true) // Se está ativo na empresa
+
+  album   Album[] // Relacionamento com os albuns
+}
+
+model Album {
+  id            String   @id @default(uuid())
+
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+
+  campamini     String
+  campafull     String
+  titulo        String
+  description   String
+  createdAt     DateTime @default(now())
+
+  fotos         Fotos[] // Relacionamento com as fotos
+}
+
+model Fotos {
+  id        String   @id @default(uuid())
+
+  albumId   String
+  album     Album     @relation(fields: [albumId], references: [id])
+
+  foto      String 
+}
