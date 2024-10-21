@@ -25,7 +25,7 @@ router.get('/', (req: Request, res: Response) => {
 // Cria um novo usuario
 router.post('/users', new CreateUserController().handle)
 // Pega todos os usuarios e seus cursos
-router.get('/users', isAuthenticated, new ListUserContoller().handle)
+router.get('/users', new ListUserContoller().handle)
 // Desativa um usuario
 router.post('/users/edit', isAuthenticated, new EditActiveUserController().handle)
 // Faz a altenticação de login do usuario
