@@ -12,28 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DetailUserService = void 0;
+exports.ListUserService = void 0;
 const prisma_1 = __importDefault(require("../../prisma"));
-class DetailUserService {
-    execute(user_id) {
+class ListUserService {
+    execute() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma_1.default.user.findFirst({
-                where: { id: user_id },
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    password: true,
+            const listUsers = prisma_1.default.user.findMany({
+                orderBy: {
+                    name: 'asc',
+                },
+                include: {
                     album: {
                         include: {
-                            fotos: true,
+                            fotos: true
                         }
-                    },
-                    createdAt: true
+                    }
                 }
             });
-            return user;
+            return listUsers;
         });
     }
 }
-exports.DetailUserService = DetailUserService;
+exports.ListUserService = ListUserService;

@@ -8,32 +8,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DetailUserService = void 0;
-const prisma_1 = __importDefault(require("../../prisma"));
-class DetailUserService {
-    execute(user_id) {
+exports.EditActiveUserController = void 0;
+const EditActiveUserService_1 = require("../../services/user/EditActiveUserService");
+class EditActiveUserController {
+    handle(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma_1.default.user.findFirst({
-                where: { id: user_id },
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    password: true,
-                    album: {
-                        include: {
-                            fotos: true,
-                        }
-                    },
-                    createdAt: true
-                }
+            const { user_id } = req.body;
+            const editActiveServices = new EditActiveUserService_1.EditActiveUserService();
+            const editActive = yield editActiveServices.execute({
+                user_id
             });
-            return user;
+            res.json(editActive);
         });
     }
 }
-exports.DetailUserService = DetailUserService;
+exports.EditActiveUserController = EditActiveUserController;

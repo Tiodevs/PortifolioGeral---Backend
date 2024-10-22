@@ -12,28 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DetailUserService = void 0;
+exports.EditActiveUserService = void 0;
 const prisma_1 = __importDefault(require("../../prisma"));
-class DetailUserService {
-    execute(user_id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma_1.default.user.findFirst({
+class EditActiveUserService {
+    execute(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ user_id }) {
+            // Primeiro, busque o usuário pelo ID
+            const user = yield prisma_1.default.user.findUnique({
+                where: { id: user_id }
+            });
+            if (!user) {
+                throw new Error('User not found');
+            }
+            // Inverta o valor de "active" (se for true, muda para false e vice-versa)
+            const updatedUser = yield prisma_1.default.user.update({
                 where: { id: user_id },
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    password: true,
-                    album: {
-                        include: {
-                            fotos: true,
-                        }
-                    },
-                    createdAt: true
+                data: {
+                    active: !user.active
                 }
             });
-            return user;
+            return updatedUser;
         });
     }
 }
-exports.DetailUserService = DetailUserService;
+exports.EditActiveUserService = EditActiveUserService;

@@ -12,28 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DetailUserService = void 0;
+exports.UpdateAlbumService = void 0;
 const prisma_1 = __importDefault(require("../../prisma"));
-class DetailUserService {
-    execute(user_id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield prisma_1.default.user.findFirst({
-                where: { id: user_id },
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    password: true,
-                    album: {
-                        include: {
-                            fotos: true,
-                        }
-                    },
-                    createdAt: true
-                }
+class UpdateAlbumService {
+    execute(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ albumId, titulo, description }) {
+            const album = yield prisma_1.default.album.findFirst({
+                where: {
+                    id: albumId
+                },
             });
-            return user;
+            if (!album) {
+                return { error: 'Album não encontrado' };
+            }
+            const newAlbum = yield prisma_1.default.album.update({
+                where: { id: albumId },
+                data: {
+                    titulo: titulo,
+                    description: description
+                },
+            });
+            console.log("Album atualizada");
+            return newAlbum;
         });
     }
 }
-exports.DetailUserService = DetailUserService;
+exports.UpdateAlbumService = UpdateAlbumService;
