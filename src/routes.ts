@@ -12,6 +12,7 @@ import { ListUserContoller } from './controllers/user/ListeUserController'
 import { CreateAlbumController } from './controllers/album/CreateAlbumController'
 import { CreateFotosController } from './controllers/fotos/CreateFotosController'
 import { DeleteFotoController } from './controllers/fotos/DeleteFotoController'
+import { DeleteAlbumController } from './controllers/album/DeleteAlbumController'
 const router = Router()
 
 // Configuração do envio de arquivos
@@ -38,12 +39,13 @@ router.get('/me', isAuthenticated, new DetailUserController().handle)
 // ALBUM //
 // Cria um album
 router.post('/album', new CreateAlbumController().handle)
-
+// Delta um album
+router.delete('/album', new DeleteAlbumController().handle)
 
 // FOTOS //
-// Cria um album
+// Adicionar foto no album
 router.post('/foto', new CreateFotosController().handle)
-// Delta presnece day
+// Deltar foto
 router.delete('/foto', new DeleteFotoController().handle)
 
 export { router }
