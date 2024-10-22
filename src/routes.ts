@@ -11,6 +11,7 @@ import { EditActiveUserController } from './controllers/user/EditActiveUserContr
 import { ListUserContoller } from './controllers/user/ListeUserController'
 import { CreateAlbumController } from './controllers/album/CreateAlbumController'
 import { CreateFotosController } from './controllers/fotos/CreateFotosController'
+import { DeleteFotoController } from './controllers/fotos/DeleteFotoController'
 const router = Router()
 
 // Configuração do envio de arquivos
@@ -42,5 +43,7 @@ router.post('/album', new CreateAlbumController().handle)
 // FOTOS //
 // Cria um album
 router.post('/foto', new CreateFotosController().handle)
+// Delta presnece day
+router.delete('/foto', new DeleteFotoController().handle)
 
 export { router }
